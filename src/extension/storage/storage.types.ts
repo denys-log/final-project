@@ -1,11 +1,13 @@
-import { Flashcard } from "@/types/global.types";
+import { Flashcard, Frequency } from "@/types/global.types";
 
 type StorageSchema = {
   vocabulary: Array<{
     id: string;
     text: string;
     translation: string;
-    frequencyTier: string;
+    frequency: Frequency;
+    createdAt: string;
+    updatedAt: string;
     sm2: Flashcard;
   }>;
 };

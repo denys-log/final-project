@@ -1,0 +1,46 @@
+.tableTranslation {
+  color: #b0b0b0;
+}
+
+.text {
+  font-size: 16px;
+}
+
+.deleteBtn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #606060;
+}
+
+.deleteBtn:hover {
+  color: #ff4d4d;
+}
+
+.editBtn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #606060;
+}
+
+.editBtn:hover {
+  color: #4d79ff;
+}
+
+.showTranslationBtn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #b0b0b0;
+  font-size: 14px;
+  padding: 0;
+}
+
+.showTranslationBtn:hover {
+  color: #fff;
+}
+
+.showTranslationText {
+  font-size: 14px;
+}

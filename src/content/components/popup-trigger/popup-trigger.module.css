@@ -3,6 +3,20 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 40px;
-  height: 40px;
+}
+
+.btn {
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+  background-color: #2f2f2f !important;
+  border: none !important;
+  outline: none !important;
+  cursor: pointer !important;
+  padding: 0 !important;
+  font-size: 16px !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
 }

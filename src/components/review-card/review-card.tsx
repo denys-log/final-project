@@ -1,6 +1,9 @@
 import { StorageSchema } from "@/extension/storage/storage.types";
 import { useState } from "react";
 import { SuperMemoGrade } from "supermemo";
+import { Divider } from "../divider/divider";
+import styles from "./review-card.module.css";
+import { Button } from "../button/button";
 
 export function ReviewCard({
   text,
@@ -13,26 +16,38 @@ export function ReviewCard({
 
   return (
     <div>
-      <h1>Review Card</h1>
-      {text}
-      <br />
+      <div className={styles.label}>Згадайте переклад слова:</div>
+      <div className={styles.text}>{text}</div>
+      <Divider />
       {isAnswerVisible ? (
         <div>
-          <strong>{translation}</strong>
-          <ul>
+          <div className={styles.translation}>{translation}</div>
+
+          <Divider />
+
+          <div className={styles.label}>
+            Оцініть, наскільки легко згадали слово:
+          </div>
+          <div className={styles.gradesWrapper}>
             {GRADES.map((grade) => (
-              <li key={grade.value}>
-                <button type="button" onClick={() => onGrade(grade.value)}>
+              <div key={grade.value}>
+                <Button
+                  onClick={() => onGrade(grade.value)}
+                  className={styles.gradeBtn}
+                >
                   {grade.label}
-                </button>
-              </li>
+                </Button>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
       ) : (
-        <button onClick={() => setIsAnswerVisible(!isAnswerVisible)}>
-          Show Answer
-        </button>
+        <Button
+          onClick={() => setIsAnswerVisible(!isAnswerVisible)}
+          className={styles.showAnswer}
+        >
+          Перевірити себе
+        </Button>
       )}
     </div>
   );
@@ -41,18 +56,18 @@ export function ReviewCard({
 const GRADES: { value: SuperMemoGrade; label: string }[] = [
   {
     value: 0,
-    label: "again",
+    label: "Не знав",
   },
   {
     value: 3,
-    label: "hard",
+    label: "Важко",
   },
   {
     value: 4,
-    label: "good",
+    label: "Добре",
   },
   {
     value: 5,
-    label: "easy",
+    label: "Легко",
   },
 ];

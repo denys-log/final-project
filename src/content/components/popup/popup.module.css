@@ -1,8 +1,67 @@
 .wrapper {
-  z-index: 10000;
-  position: absolute;
+  z-index: 10000 !important;
+  position: absolute !important;
   top: 0;
   left: 0;
-  width: 300px;
-  background-color: tomato;
+  width: 300px !important;
+  background-color: #272727 !important;
+  border-radius: 10px !important;
+  color: #fff !important;
+}
+
+.loader {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 20px !important;
+  font-size: 16px !important;
+}
+
+.inner {
+  padding: 20px !important;
+}
+
+.text {
+  font-size: 24px !important;
+  line-height: 1.2 !important;
+  font-weight: normal !important;
+}
+
+.multiplyText {
+  font-size: 16px !important;
+  line-height: 1.2 !important;
+  font-weight: normal !important;
+  max-height: 200px !important;
+  overflow-y: auto !important;
+}
+
+.line {
+  height: 1px !important;
+  background-color: #444 !important;
+  margin: 15px 0 !important;
+}
+
+.addButton {
+  background-color: #6f4711 !important;
+  outline: none !important;
+  border: none !important;
+  border-radius: 10px !important;
+  padding: 10px 18px !important;
+  color: white !important;
+  font-size: 16px !important;
+  font-weight: bold !important;
+  cursor: pointer !important;
+  margin-top: 15px !important;
+  min-height: 44px !important;
+  height: 44px !important;
+}
+
+.alreadyAddedText {
+  margin-top: 15px !important;
+  font-size: 16px !important;
+  color: #aaa !important;
+}
+
+.infoLabel {
+  color: #aaa !important;
 }

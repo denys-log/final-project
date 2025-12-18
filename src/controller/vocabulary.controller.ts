@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 import { storage } from "@/extension/storage/storage.api";
 import dayjs from "dayjs";
 import { StorageSchema } from "@/extension/storage/storage.types";
+import { Frequency } from "@/types/global.types";
 
 const add = async ({
   text,
@@ -10,7 +11,7 @@ const add = async ({
 }: {
   text: string;
   translation: string;
-  frequency: any;
+  frequency: Frequency;
 }) => {
   const isWord = text.trim().split(" ").length === 1;
   if (!isWord) return;
@@ -26,7 +27,9 @@ const add = async ({
       id: uuidv4(),
       text,
       translation,
-      frequencyTier: frequency ? frequency.color : "unknown",
+      frequency,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
       sm2: {
         interval: 0,
         repetition: 0,

@@ -4,6 +4,8 @@ import { useTranslate } from "@/content/hooks/use-translate";
 import { useState } from "react";
 import { vocabularyController } from "@/controller/vocabulary.controller";
 import { isWord } from "@/utils/is-word";
+import { FadeLoader } from "react-spinners";
+import { Button } from "@/components/button/button";
 
 type Props = {
   text: string;
@@ -20,12 +22,14 @@ export function Popup({ text, position, ref }: Props) {
     useState(true);
 
   const handleLearnWord = async () => {
-    await vocabularyController.add({
-      text,
-      translation: translatedText,
-      frequency,
-    });
-    setIsAddToVocabularyButtonVisible(false);
+    if (frequency) {
+      await vocabularyController.add({
+        text,
+        translation: translatedText,
+        frequency,
+      });
+      setIsAddToVocabularyButtonVisible(false);
+    }
   };
 
   return (
@@ -38,37 +42,47 @@ export function Popup({ text, position, ref }: Props) {
       }}
     >
       {isLoading ? (
-        <p>Loading...</p>
+        <div className={styles.loader}>
+          <FadeLoader color="#aaa" />
+        </div>
       ) : (
-        <div>
-          <h1>{translatedText}</h1>
-
+        <div className={styles.inner}>
           {isWord(text) ? (
-            <div>
-              {isAddedToVocabulary || !isAddToVocabularyButtonVisible ? (
-                <p>This text has already been added to the vocabulary.</p>
-              ) : (
-                <button
-                  type="button"
-                  className="bg-blue-600"
-                  onClick={handleLearnWord}
-                >
-                  Learn word
-                </button>
-              )}
+            <>
+              <div className={styles.text}>{translatedText}</div>
+              <div className={styles.line} />
+              <div>
+                <div>
+                  <span className={styles.infoLabel}>Пріоритет вивчення:</span>{" "}
+                  {frequency?.color} {frequency?.priority}
+                </div>
+                <div>
+                  <span className={styles.infoLabel}>Рівень CEFR:</span>{" "}
+                  {frequency?.cefrLevel}
+                </div>
+                <div>
+                  <span className={styles.infoLabel}>Покриття текстів:</span>{" "}
+                  {frequency?.coverage}
+                </div>
+              </div>
 
-              {frequency ? (
-                <>
-                  <span>Frequency Tier: {frequency.color}</span>
-                  <span>{frequency.nameEn}</span>
-                  <span>{frequency.description}</span>
-                  <span>{frequency.coverage}</span>
-                  <span>{frequency.cefrLevel}</span>
-                  <span>{frequency.priority}</span>
-                </>
-              ) : null}
-            </div>
-          ) : null}
+              {isAddedToVocabulary || !isAddToVocabularyButtonVisible ? (
+                <div className={styles.alreadyAddedText}>
+                  Це слово додано до словника.
+                </div>
+              ) : (
+                <Button
+                  className={styles.addButton}
+                  onClick={handleLearnWord}
+                  variant="primary"
+                >
+                  Додати до словника
+                </Button>
+              )}
+            </>
+          ) : (
+            <div className={styles.multiplyText}>{translatedText}</div>
+          )}
         </div>
       )}
     </div>

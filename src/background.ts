@@ -21,7 +21,7 @@ chrome.runtime.onMessage.addListener(
             translations: [
               {
                 detected_source_language: "EN",
-                text: "Зрозуміти",
+                text: "Тут буде переклад",
               },
             ],
           });

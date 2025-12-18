@@ -1,3 +1,12 @@
+# TODO
+
+[] - Фільтрація на не потрібні символи (,.?...), тобто якщо тільки ці символи були вибрані, то не показувати переклад
+[] - Встановити максимальну кількість символів для перекладу
+[] - гарячі клавіші (виклик перекладу)
+[] - кеш для слів які вже переклали, щоб не викликати зайві запити
+[] - фільтрація та сортування на сторінці словника
+[] - нагадування в браузері сповіщення про необхідність повторити слова
+
 # React + Vite + CRXJS
 
 This template helps you quickly start developing Chrome extensions with React, TypeScript and Vite. It includes the CRXJS Vite plugin for seamless Chrome extension development.

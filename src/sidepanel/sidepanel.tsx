@@ -1,24 +1,36 @@
 import { VocabularyList } from "@/components/vocabulary-list/vocabulary-list";
+import styles from "./sidepanel.module.css";
+import { useState } from "react";
+import VocabularyTrainer from "@/pages/vocabulary-trainer/vocabulary-trainer";
+import classNames from "classnames";
+import { Divider } from "@/components/divider/divider";
+import { Button } from "@/components/button/button";
 
 export default function Sidepanel() {
-  const openVocabulary = () => {
-    const pageUrl = chrome.runtime.getURL("src/pages/vocabulary/index.html");
-    chrome.tabs.create({ url: pageUrl });
-  };
-
-  const openVocabularyTrainer = () => {
-    const pageUrl = chrome.runtime.getURL(
-      "src/pages/vocabulary-trainer/index.html"
-    );
-    chrome.tabs.create({ url: pageUrl });
-  };
+  const [activeTab, setActiveTab] = useState<"vocabulary" | "trainer">(
+    "vocabulary"
+  );
 
   return (
-    <div>
-      <button onClick={openVocabulary}>Vocabulary</button>
-      <button onClick={openVocabularyTrainer}>Vocabulary trainer</button>
+    <div className={styles.wrapper}>
+      <div className={styles.tabs}>
+        <Button
+          onClick={() => setActiveTab("trainer")}
+          variant={activeTab === "trainer" ? "primary" : undefined}
+        >
+          Тренуватися
+        </Button>
+        <Button
+          onClick={() => setActiveTab("vocabulary")}
+          variant={activeTab === "vocabulary" ? "primary" : undefined}
+        >
+          Cловник
+        </Button>
+      </div>
 
-      <VocabularyList />
+      <Divider />
+
+      {activeTab === "vocabulary" ? <VocabularyList /> : <VocabularyTrainer />}
     </div>
   );
 }

@@ -36,3 +36,15 @@ export type ExtensionMessageResponsePayloadKeys =
 export type Flashcard = SuperMemoItem & {
   dueDate: string;
 };
+
+export type Frequency = {
+  range: number[];
+  color: string;
+  hex: string;
+  name: string;
+  nameEn: string;
+  description: string;
+  coverage: string;
+  cefrLevel: string;
+  priority: string;
+};

@@ -5,16 +5,11 @@ import { spacedRepetitionService } from "@/services/spaced-repetition.service";
 import { ReviewCard } from "@/components/review-card/review-card";
 import { useStorageListener } from "@/hooks/use-storage-listener";
 import { vocabularyController } from "@/controller/vocabulary.controller";
+import styles from "./vocabulary-trainer.module.css";
+import { useGetTodayWords } from "@/hooks/use-get-today-words";
 
 export default function VocabularyTrainer() {
-  const [queue, setQueue] = useState<StorageSchema["vocabulary"]>([]);
-
-  useEffect(() => {
-    (async () => {
-      const todayWords = await vocabularyController.getTodayWords();
-      setQueue(todayWords);
-    })();
-  }, []);
+  const [queue, setQueue] = useGetTodayWords();
 
   useStorageListener("vocabulary", async (change) => {
     if (change.newValue) {
@@ -47,16 +42,29 @@ export default function VocabularyTrainer() {
   };
 
   if (queue.length === 0) {
-    return <div>No words to practice today.</div>;
+    return (
+      <div>
+        <h1 className={styles.title}>Тренажер словника</h1>
+        <div className={styles.finish}>
+          <p>На сьогодні всі слова вивчено!</p>
+          <p>Повертайся завтра 😺</p>
+        </div>
+      </div>
+    );
   }
 
   const [currentWord] = queue;
 
   return (
-    <div>
-      <h1>vocabulary-trainer</h1>
-
-      <ReviewCard key={currentWord.id} {...currentWord} onGrade={handleGrade} />
-    </div>
+    <>
+      <h1 className={styles.title}>Тренажер словника</h1>
+      <div className={styles.wrapper}>
+        <ReviewCard
+          key={currentWord.id}
+          {...currentWord}
+          onGrade={handleGrade}
+        />
+      </div>
+    </>
   );
 }

@@ -1,5 +1,6 @@
 import { isWord } from "@/utils/is-word";
 import en_50k from "../../data/en_50k.json";
+import { Frequency } from "@/types/global.types";
 
 export function useWordFrequency(text: string) {
   if (!isWord(text)) return null;
@@ -26,7 +27,7 @@ export function useWordFrequency(text: string) {
   }
 }
 
-const FREQUENCY_TIERS = {
+export const FREQUENCY_TIERS: Record<string, Frequency> = {
   ESSENTIAL: {
     range: [1, 1000],
     color: "🟢",
@@ -36,7 +37,7 @@ const FREQUENCY_TIERS = {
     description: "Must-know слова",
     coverage: "~75-80% повсякденної мови",
     cefrLevel: "A1-A2",
-    priority: "ДУЖЕ ВИСОКИЙ",
+    priority: "Дуже високий",
   },
 
   IMPORTANT: {
@@ -48,7 +49,7 @@ const FREQUENCY_TIERS = {
     description: "Необхідні для впевненого спілкування",
     coverage: "+15% (всього ~90-95%)",
     cefrLevel: "B1-B2",
-    priority: "ВИСОКИЙ",
+    priority: "Високий",
   },
 
   USEFUL: {
@@ -60,7 +61,7 @@ const FREQUENCY_TIERS = {
     description: "Для вільного володіння",
     coverage: "+3-5% (всього ~95-98%)",
     cefrLevel: "B2-C1",
-    priority: "СЕРЕДНІЙ",
+    priority: "Середній",
   },
 
   ADVANCED: {
@@ -72,7 +73,7 @@ const FREQUENCY_TIERS = {
     description: "Рідкісні або спеціалізовані",
     coverage: "~1-2%",
     cefrLevel: "C1-C2",
-    priority: "НИЗЬКИЙ",
+    priority: "Низький",
   },
 };
 

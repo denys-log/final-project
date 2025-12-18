@@ -1,4 +1,5 @@
 import styles from "./popup-trigger.module.css";
+import { GrLanguage } from "react-icons/gr";
 
 type Props = {
   position?: { bottom: number; right: number };
@@ -16,8 +17,8 @@ export function PopupTrigger({ position, onClick }: Props) {
         left: position.right,
       }}
     >
-      <button type="button" onClick={onClick}>
-        📗
+      <button type="button" onClick={onClick} className={styles.btn}>
+        <GrLanguage />
       </button>
     </div>
   );
