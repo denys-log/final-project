@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { isValidTextSelection } from "@/utils/validate-text-selection";
 
 type Props = {
   popupNodeRef: React.RefObject<HTMLDivElement | null>;
@@ -19,13 +20,17 @@ export function useTextSelection({ popupNodeRef, onClear }: Props) {
       if (!popupNodeRef.current?.contains(event.target as Node)) {
         setTimeout(() => {
           const selection = window.getSelection();
-          const text = selection?.toString().trim().toLowerCase();
+          const rawText = selection?.toString().trim();
 
-          if (!text || text.length === 0) {
+          // Validate text BEFORE lowercasing
+          if (!rawText || !isValidTextSelection(rawText)) {
             setState({ text: "", position: undefined });
             onClear();
             return;
           }
+
+          // Only lowercase after validation passes
+          const text = rawText.toLowerCase();
 
           const range = selection?.getRangeAt(0);
           if (range) {
