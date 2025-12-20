@@ -6,6 +6,7 @@ import { vocabularyController } from "@/controller/vocabulary.controller";
 import { isWord } from "@/utils/is-word";
 import { FadeLoader } from "react-spinners";
 import { Button } from "@/components/button/button";
+import { PhoneticDisplay } from "@/components/phonetic-display/phonetic-display";
 
 type Props = {
   text: string;
@@ -17,7 +18,8 @@ export function Popup({ text, position, ref }: Props) {
   if (!position) return null;
 
   const frequency = useWordFrequency(text);
-  const { translatedText, isAddedToVocabulary, isLoading } = useTranslate(text);
+  const { translatedText, isAddedToVocabulary, phonetic, isLoading } =
+    useTranslate(text);
   const [isAddToVocabularyButtonVisible, setIsAddToVocabularyButtonVisible] =
     useState(true);
 
@@ -27,6 +29,7 @@ export function Popup({ text, position, ref }: Props) {
         text,
         translation: translatedText,
         frequency,
+        phonetic: phonetic || undefined,
       });
       setIsAddToVocabularyButtonVisible(false);
     }
@@ -50,6 +53,7 @@ export function Popup({ text, position, ref }: Props) {
           {isWord(text) ? (
             <>
               <div className={styles.text}>{translatedText}</div>
+              <PhoneticDisplay phonetic={phonetic} />
               <div className={styles.line} />
               <div>
                 <div>

@@ -1,14 +1,22 @@
 import { SuperMemoItem } from "supermemo";
 
-export type ExtensionMessageEvent<Payload = undefined> = {
-  action: "TRANSLATE";
-  payload?: Payload;
-};
+export type ExtensionMessageEvent =
+  | {
+      action: "TRANSLATE";
+      payload?: ExtensionMessageEventPayload["TRANSLATE"];
+    }
+  | {
+      action: "WIKTIONARY";
+      payload?: ExtensionMessageEventPayload["WIKTIONARY"];
+    };
 
 export type ExtensionMessageEventPayload = {
   TRANSLATE: {
     text: string;
     targetLang?: string;
+  };
+  WIKTIONARY: {
+    word: string;
   };
 };
 

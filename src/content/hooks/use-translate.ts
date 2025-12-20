@@ -1,5 +1,7 @@
 import { vocabularyController } from "@/controller/vocabulary.controller";
 import { deepLService } from "@/services/deepl.service";
+import { wiktionaryService } from "@/services/wiktionary.service";
+import { isWord } from "@/utils/is-word";
 import { useEffect, useState } from "react";
 
 export function useTranslate(text: string) {
@@ -8,6 +10,10 @@ export function useTranslate(text: string) {
   const [translatedText, setTranslatedText] = useState<string>("");
   const [isAddedToVocabulary, setIsAddedToVocabulary] =
     useState<boolean>(false);
+  const [phonetic, setPhonetic] = useState<{
+    audio: string;
+    text: string;
+  } | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -26,6 +32,10 @@ export function useTranslate(text: string) {
           if (result.data) {
             setTranslatedText(result.data.translations[0].text);
           }
+          if (isWord(text)) {
+            const phonetic = await wiktionaryService.get(text);
+            setPhonetic(phonetic);
+          }
         }
 
         setIsLoading(false);
@@ -37,5 +47,5 @@ export function useTranslate(text: string) {
     })();
   }, [text]);
 
-  return { translatedText, isAddedToVocabulary, isLoading, error };
+  return { translatedText, isAddedToVocabulary, isLoading, error, phonetic };
 }

@@ -8,10 +8,12 @@ const add = async ({
   text,
   translation,
   frequency,
+  phonetic,
 }: {
   text: string;
   translation: string;
   frequency: Frequency;
+  phonetic?: { audio: string; text: string };
 }) => {
   const isWord = text.trim().split(" ").length === 1;
   if (!isWord) return;
@@ -28,6 +30,7 @@ const add = async ({
       text,
       translation,
       frequency,
+      phonetic,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       sm2: {
@@ -80,6 +83,25 @@ const getTodayWords = async () => {
   return vocabulary.filter((entry) => isDueToday(entry.sm2.dueDate));
 };
 
+const addBatch = async (items: StorageSchema["vocabulary"]) => {
+  const prevVocabulary = await getAll();
+  const existingTexts = new Set(prevVocabulary.map((entry) => entry.text));
+
+  // Filter out duplicates
+  const newItems = items.filter((item) => !existingTexts.has(item.text));
+
+  if (newItems.length === 0) {
+    return { added: 0, skipped: items.length };
+  }
+
+  await storage.set("vocabulary", [...prevVocabulary, ...newItems]);
+
+  return {
+    added: newItems.length,
+    skipped: items.length - newItems.length,
+  };
+};
+
 export const vocabularyController = {
   add,
   get,
@@ -87,4 +109,5 @@ export const vocabularyController = {
   remove,
   getTodayWords,
   update,
+  addBatch,
 };

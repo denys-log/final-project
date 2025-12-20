@@ -6,11 +6,13 @@ export function Button({
   className,
   variant,
   children,
+  disabled,
 }: {
   onClick: () => void;
   className?: string;
   variant?: "primary" | "link";
   children: React.ReactNode;
+  disabled?: boolean;
 }) {
   return (
     <button
@@ -20,6 +22,7 @@ export function Button({
         [styles.primary]: variant === "primary",
         [styles.link]: variant === "link",
       })}
+      disabled={disabled}
     >
       {children}
     </button>

@@ -1,12 +1,8 @@
-import {
-  ExtensionMessageEvent,
-  ExtensionMessageEventPayload,
-  ExtensionMessageEventPayloadKeys,
-} from "./types/global.types";
+import { ExtensionMessageEvent } from "./types/global.types";
 
 chrome.runtime.onMessage.addListener(
-  <T extends ExtensionMessageEventPayloadKeys>(
-    message: ExtensionMessageEvent<ExtensionMessageEventPayload[T]>,
+  (
+    message: ExtensionMessageEvent,
     _: unknown,
     sendResponse: (response?: any) => void
   ) => {
@@ -45,6 +41,23 @@ chrome.runtime.onMessage.addListener(
       //   .catch((error) =>
       //     sendResponse({ success: false, error: error.message })
       //   );
+
+      return true;
+    } else if (message.action === "WIKTIONARY" && message.payload?.word) {
+      fetch(
+        `https://api.dictionaryapi.dev/api/v2/entries/en/${message.payload.word}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => sendResponse({ success: true, data }))
+        .catch((error) =>
+          sendResponse({ success: false, error: error.message })
+        );
 
       return true;
     }

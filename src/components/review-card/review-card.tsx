@@ -4,10 +4,12 @@ import { SuperMemoGrade } from "supermemo";
 import { Divider } from "../divider/divider";
 import styles from "./review-card.module.css";
 import { Button } from "../button/button";
+import { PhoneticDisplay } from "../phonetic-display/phonetic-display";
 
 export function ReviewCard({
   text,
   translation,
+  phonetic,
   onGrade,
 }: StorageSchema["vocabulary"][0] & {
   onGrade: (grade: SuperMemoGrade) => void;
@@ -18,6 +20,7 @@ export function ReviewCard({
     <div>
       <div className={styles.label}>Згадайте переклад слова:</div>
       <div className={styles.text}>{text}</div>
+      <PhoneticDisplay phonetic={phonetic} />
       <Divider />
       {isAnswerVisible ? (
         <div>

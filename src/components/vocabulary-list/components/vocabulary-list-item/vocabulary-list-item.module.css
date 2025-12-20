@@ -44,3 +44,20 @@
 .showTranslationText {
   font-size: 14px;
 }
+
+.actionButtons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.infoBtn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #606060;
+}
+
+.infoBtn:hover {
+  color: #4d79ff;
+}

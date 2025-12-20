@@ -6,8 +6,9 @@ import {
   FaFilter,
   FaRegSquare,
   FaSort,
+  FaTimes,
 } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FREQUENCY_TIERS } from "@/content/hooks/use-word-frequency";
 
 export function VocabularyListHeader({
@@ -27,6 +28,29 @@ export function VocabularyListHeader({
 }) {
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
+  const sortDropdownRef = useRef<HTMLDivElement>(null);
+  const filterDropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node;
+
+      if (
+        sortDropdownRef.current &&
+        !sortDropdownRef.current.contains(target) &&
+        filterDropdownRef.current &&
+        !filterDropdownRef.current.contains(target)
+      ) {
+        setIsSortDropdownOpen(false);
+        setIsFilterDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleFilterDropdownToggle = () => {
     setIsFilterDropdownOpen(!isFilterDropdownOpen);
@@ -40,14 +64,25 @@ export function VocabularyListHeader({
 
   return (
     <div className={styles.header}>
-      <input
-        type="text"
-        placeholder="Шукати слово..."
-        value={searchValue}
-        onChange={(e) => onChangeSearchValue(e.target.value)}
-        className={styles.searchInput}
-      />
-      <div className={styles.filterBtnWrapper}>
+      <div className={styles.searchInputWrapper}>
+        <input
+          type="text"
+          placeholder="Шукати слово..."
+          value={searchValue}
+          onChange={(e) => onChangeSearchValue(e.target.value)}
+          className={styles.searchInput}
+        />
+        {searchValue.length > 0 && (
+          <button
+            type="button"
+            className={styles.clearBtn}
+            onClick={() => onChangeSearchValue("")}
+          >
+            <FaTimes />
+          </button>
+        )}
+      </div>
+      <div className={styles.filterBtnWrapper} ref={sortDropdownRef}>
         <button
           type="button"
           className={classNames(styles.btn, styles.sortBtn)}
@@ -63,7 +98,10 @@ export function VocabularyListHeader({
                 className={classNames(styles.sortItemBtn, {
                   [styles.active]: sortValue === "alphabetical",
                 })}
-                onClick={() => onChangeSortValue("alphabetical")}
+                onClick={() => {
+                  onChangeSortValue("alphabetical");
+                  setIsSortDropdownOpen(false);
+                }}
               >
                 За алфавітом
                 {sortValue === "alphabetical" ? (
@@ -79,7 +117,10 @@ export function VocabularyListHeader({
                 className={classNames(styles.sortItemBtn, {
                   [styles.active]: sortValue === "date",
                 })}
-                onClick={() => onChangeSortValue("date")}
+                onClick={() => {
+                  onChangeSortValue("date");
+                  setIsSortDropdownOpen(false);
+                }}
               >
                 За датою додавання
                 {sortValue === "date" ? (
@@ -92,7 +133,7 @@ export function VocabularyListHeader({
           </div>
         )}
       </div>
-      <div className={styles.filterBtnWrapper}>
+      <div className={styles.filterBtnWrapper} ref={filterDropdownRef}>
         <button
           type="button"
           className={styles.btn}
