@@ -2,7 +2,9 @@ import { SuperMemoGrade } from "supermemo";
 import { spacedRepetitionService } from "@/services/spaced-repetition.service";
 import { ReviewCard } from "@/components/review-card/review-card";
 import { ProgressBar } from "@/components/progress-bar/progress-bar";
+import { SessionResults } from "@/components/session-results/session-results";
 import { useStorageListener } from "@/hooks/use-storage-listener";
+import { useSessionStats } from "@/hooks/use-session-stats";
 import { vocabularyController } from "@/controller/vocabulary.controller";
 import styles from "./vocabulary-trainer.module.css";
 import { useGetTodayWords } from "@/hooks/use-get-today-words";
@@ -11,17 +13,39 @@ import { useEffect, useRef, useState } from "react";
 export default function VocabularyTrainer() {
   const [queue, setQueue] = useGetTodayWords();
   const [completedCount, setCompletedCount] = useState(0);
+  const [sessionEnded, setSessionEnded] = useState(false);
   const initialTotalRef = useRef(0);
   const prevQueueLengthRef = useRef(0);
+  const {
+    stats,
+    startSession,
+    recordGrade,
+    endSession,
+    resetSession,
+    getPerformanceLevel,
+    getGoodPercentage,
+    getDuration,
+  } = useSessionStats();
 
   useEffect(() => {
     // New session: queue was empty, now has words
     if (prevQueueLengthRef.current === 0 && queue.length > 0) {
       initialTotalRef.current = queue.length;
       setCompletedCount(0);
+      setSessionEnded(false);
+      resetSession();
+      startSession(queue.length);
     }
     prevQueueLengthRef.current = queue.length;
-  }, [queue.length]);
+  }, [queue.length, resetSession, startSession]);
+
+  // End session when queue becomes empty after having words
+  useEffect(() => {
+    if (queue.length === 0 && initialTotalRef.current > 0 && !sessionEnded) {
+      endSession();
+      setSessionEnded(true);
+    }
+  }, [queue.length, sessionEnded, endSession]);
 
   const initialTotal = initialTotalRef.current;
 
@@ -53,6 +77,8 @@ export default function VocabularyTrainer() {
   const handleGrade = async (grade: SuperMemoGrade) => {
     const [currentWord] = queue;
 
+    recordGrade(grade);
+
     await vocabularyController.update({
       ...currentWord,
       sm2: spacedRepetitionService.practice(currentWord.sm2, grade),
@@ -60,13 +86,28 @@ export default function VocabularyTrainer() {
   };
 
   if (queue.length === 0) {
+    // No words were ever loaded - nothing to review today
+    if (initialTotal === 0) {
+      return (
+        <div>
+          <h1 className={styles.title}>Тренажер словника</h1>
+          <div className={styles.finish}>
+            <p>На сьогодні немає слів для повторення.</p>
+          </div>
+        </div>
+      );
+    }
+
+    // Session completed - show results
     return (
       <div>
         <h1 className={styles.title}>Тренажер словника</h1>
-        <div className={styles.finish}>
-          <p>На сьогодні всі слова вивчено!</p>
-          <p>Повертайся завтра 😺</p>
-        </div>
+        <SessionResults
+          stats={stats}
+          performanceLevel={getPerformanceLevel()}
+          goodPercentage={getGoodPercentage()}
+          duration={getDuration()}
+        />
       </div>
     );
   }

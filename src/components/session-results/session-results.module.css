@@ -1,0 +1,159 @@
+.wrapper {
+  position: relative;
+  padding: 30px 20px;
+  background-color: #272727;
+  border: 1px solid #2f2f2f;
+  border-radius: 9px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.confettiContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  top: -10px;
+  opacity: 0.8;
+  animation: fall 3s linear infinite;
+}
+
+@keyframes fall {
+  0% {
+    top: -10px;
+    transform: rotate(0deg) translateX(0);
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    transform: rotate(720deg) translateX(50px);
+    opacity: 0;
+  }
+}
+
+.iconWrapper {
+  margin-bottom: 15px;
+}
+
+.iconExcellent {
+  font-size: 48px;
+  color: #ffd700;
+  animation: pulse 1s ease-in-out infinite;
+}
+
+.iconGood {
+  font-size: 48px;
+  color: #4dcc4d;
+}
+
+.iconPractice {
+  font-size: 48px;
+  color: #4d79ff;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.message {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 25px;
+  color: #fff;
+}
+
+.statsGrid {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 25px;
+  padding: 15px 0;
+  background-color: #1f1f1f;
+  border-radius: 8px;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.statValue {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.statLabel {
+  font-size: 12px;
+  color: #aaa;
+  margin-top: 4px;
+}
+
+.gradeBreakdown {
+  margin-bottom: 20px;
+}
+
+.breakdownTitle {
+  font-size: 14px;
+  color: #aaa;
+  margin-bottom: 10px;
+}
+
+.gradeBar {
+  display: flex;
+  height: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #444;
+}
+
+.gradeSegment {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.gradeLegend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.legendColor {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.legendLabel {
+  font-size: 12px;
+  color: #b0b0b0;
+}
+
+.footer {
+  font-size: 14px;
+  color: #888;
+  margin-top: 10px;
+}
