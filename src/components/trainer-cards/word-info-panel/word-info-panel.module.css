@@ -1,0 +1,21 @@
+.wrapper {
+  margin-bottom: 10px;
+}
+
+.text {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.translation {
+  color: #b0b0b0;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.context {
+  color: #888;
+  font-size: 14px;
+  font-style: italic;
+  margin-top: 8px;
+}

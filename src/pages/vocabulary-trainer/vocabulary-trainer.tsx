@@ -1,10 +1,11 @@
 import { SuperMemoGrade } from "supermemo";
 import { spacedRepetitionService } from "@/services/spaced-repetition.service";
-import { ReviewCard } from "@/components/review-card/review-card";
+import { CardRenderer } from "@/components/trainer-cards";
 import { ProgressBar } from "@/components/progress-bar/progress-bar";
 import { SessionResults } from "@/components/session-results/session-results";
 import { useStorageListener } from "@/hooks/use-storage-listener";
 import { useSessionStats } from "@/hooks/use-session-stats";
+import { useCardTypeSelection } from "@/hooks/use-card-type-selection";
 import { vocabularyController } from "@/controller/vocabulary.controller";
 import styles from "./vocabulary-trainer.module.css";
 import { useGetTodayWords } from "@/hooks/use-get-today-words";
@@ -16,6 +17,7 @@ export default function VocabularyTrainer() {
   const [sessionEnded, setSessionEnded] = useState(false);
   const initialTotalRef = useRef(0);
   const prevQueueLengthRef = useRef(0);
+  const cardTypeMap = useCardTypeSelection(queue);
   const {
     stats,
     startSession,
@@ -113,6 +115,7 @@ export default function VocabularyTrainer() {
   }
 
   const [currentWord] = queue;
+  const currentCardType = cardTypeMap.get(currentWord.id) || "classic";
 
   return (
     <>
@@ -121,9 +124,10 @@ export default function VocabularyTrainer() {
         <ProgressBar current={completedCount} total={initialTotal} />
       </div>
       <div className={styles.wrapper}>
-        <ReviewCard
+        <CardRenderer
           key={currentWord.id}
-          {...currentWord}
+          word={currentWord}
+          cardType={currentCardType}
           onGrade={handleGrade}
         />
       </div>

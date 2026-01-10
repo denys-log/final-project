@@ -1,0 +1,38 @@
+.input {
+  width: 40px;
+  height: 50px;
+  text-align: center;
+  font-size: 24px;
+  border: 2px solid #444;
+  border-radius: 8px;
+  background-color: #2a2a2a;
+  color: #fff;
+  text-transform: lowercase;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #6f4711;
+}
+
+.input:disabled {
+  cursor: not-allowed;
+}
+
+.empty {
+  border-color: #444;
+}
+
+.filled {
+  border-color: #666;
+}
+
+.correct {
+  border-color: #4dcc4d;
+  background-color: rgba(77, 204, 77, 0.2);
+}
+
+.incorrect {
+  border-color: #ff4d4d;
+  background-color: rgba(255, 77, 77, 0.2);
+}
