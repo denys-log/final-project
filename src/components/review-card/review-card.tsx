@@ -5,11 +5,13 @@ import { Divider } from "../divider/divider";
 import styles from "./review-card.module.css";
 import { Button } from "../button/button";
 import { PhoneticDisplay } from "../phonetic-display/phonetic-display";
+import { HighlightedContext } from "../highlighted-context/highlighted-context";
 
 export function ReviewCard({
   text,
   translation,
   phonetic,
+  context,
   onGrade,
 }: StorageSchema["vocabulary"][0] & {
   onGrade: (grade: SuperMemoGrade) => void;
@@ -25,6 +27,11 @@ export function ReviewCard({
       {isAnswerVisible ? (
         <div>
           <div className={styles.translation}>{translation}</div>
+          {context && (
+            <div className={styles.context}>
+              <HighlightedContext context={context} word={text} />
+            </div>
+          )}
 
           <Divider />
 

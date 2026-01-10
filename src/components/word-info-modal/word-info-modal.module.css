@@ -43,6 +43,11 @@
   font-weight: 600;
 }
 
+.context {
+  font-style: italic;
+  color: #ccc;
+}
+
 .actions {
   display: flex;
   justify-content: flex-end;

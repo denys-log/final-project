@@ -11,10 +11,11 @@ import { PhoneticDisplay } from "@/components/phonetic-display/phonetic-display"
 type Props = {
   text: string;
   position: DOMRect | undefined;
+  context: string | null;
   ref: React.RefObject<HTMLDivElement | null>;
 };
 
-export function Popup({ text, position, ref }: Props) {
+export function Popup({ text, position, context, ref }: Props) {
   if (!position) return null;
 
   const frequency = useWordFrequency(text);
@@ -30,6 +31,7 @@ export function Popup({ text, position, ref }: Props) {
         translation: translatedText,
         frequency,
         phonetic: phonetic || undefined,
+        context: context || undefined,
       });
       setIsAddToVocabularyButtonVisible(false);
     }

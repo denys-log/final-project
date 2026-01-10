@@ -3,6 +3,7 @@ import {
   cleanTextSelection,
   isValidTextSelection,
 } from "@/utils/validate-text-selection";
+import { extractContextFromSelection } from "@/utils/extract-context";
 
 type Props = {
   popupNodeRef: React.RefObject<HTMLDivElement | null>;
@@ -13,9 +14,11 @@ export function useTextSelection({ popupNodeRef, onClear }: Props) {
   const [state, setState] = useState<{
     text: string;
     position: DOMRect | undefined;
+    context: string | null;
   }>({
     text: "",
     position: undefined,
+    context: null,
   });
 
   useEffect(() => {
@@ -29,10 +32,13 @@ export function useTextSelection({ popupNodeRef, onClear }: Props) {
 
           // Validate cleaned text BEFORE lowercasing
           if (!cleanedText || !isValidTextSelection(cleanedText)) {
-            setState({ text: "", position: undefined });
+            setState({ text: "", position: undefined, context: null });
             onClear();
             return;
           }
+
+          // Extract context while selection is still active
+          const context = extractContextFromSelection();
 
           // Only lowercase after validation passes
           const text = cleanedText.toLowerCase();
@@ -41,7 +47,7 @@ export function useTextSelection({ popupNodeRef, onClear }: Props) {
           if (range) {
             const rects = Array.from(range.getClientRects());
             const lastLineRect = rects[rects.length - 1];
-            setState({ text, position: lastLineRect });
+            setState({ text, position: lastLineRect, context });
           }
         }, 10);
       }

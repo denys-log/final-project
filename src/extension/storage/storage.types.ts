@@ -7,6 +7,7 @@ type StorageSchema = {
     translation: string;
     frequency: Frequency;
     phonetic?: { audio: string; text: string };
+    context?: string; // Sentence where word was found
     createdAt: string;
     updatedAt: string;
     sm2: Flashcard;

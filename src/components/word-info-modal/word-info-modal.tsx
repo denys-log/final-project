@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { StorageSchema } from "@/extension/storage/storage.types";
 import dayjs from "dayjs";
 import styles from "./word-info-modal.module.css";
+import { HighlightedContext } from "@/components/highlighted-context/highlighted-context";
 
 type WordInfoModalProps = {
   isOpen: boolean;
@@ -67,6 +68,14 @@ export function WordInfoModal({ isOpen, word, onClose }: WordInfoModalProps) {
           {word.phonetic && (
             <div className={styles.infoRow}>
               <strong>Транскрипція:</strong> {word.phonetic.text}
+            </div>
+          )}
+          {word.context && (
+            <div className={styles.infoRow}>
+              <strong>Контекст:</strong>{" "}
+              <span className={styles.context}>
+                <HighlightedContext context={word.context} word={word.text} />
+              </span>
             </div>
           )}
           <div className={styles.infoRow}>

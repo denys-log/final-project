@@ -19,6 +19,7 @@ export default function Content() {
           ref={state.popupNodeRef}
           text={state.text}
           position={state.position}
+          context={state.context}
         />
       )}
     </>

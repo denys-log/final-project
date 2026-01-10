@@ -5,7 +5,7 @@ export function useContent() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const popupNodeRef = useRef<HTMLDivElement | null>(null);
 
-  const { text, position } = useTextSelection({
+  const { text, position, context } = useTextSelection({
     popupNodeRef,
     onClear: () => setIsPopupOpen(false),
   });
@@ -15,7 +15,7 @@ export function useContent() {
   };
 
   return {
-    state: { isPopupOpen, text, position, popupNodeRef },
+    state: { isPopupOpen, text, position, context, popupNodeRef },
     actions: { handleTogglePopup },
   };
 }

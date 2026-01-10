@@ -9,11 +9,13 @@ const add = async ({
   translation,
   frequency,
   phonetic,
+  context,
 }: {
   text: string;
   translation: string;
   frequency: Frequency;
   phonetic?: { audio: string; text: string };
+  context?: string;
 }) => {
   const isWord = text.trim().split(" ").length === 1;
   if (!isWord) return;
@@ -31,6 +33,7 @@ const add = async ({
       translation,
       frequency,
       phonetic,
+      context,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       sm2: {
