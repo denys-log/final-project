@@ -29,6 +29,15 @@ export type ExtensionMessageResponse<T> = {
   error?: string;
 };
 
+export type DictionaryApiResponse = {
+  word: string;
+  phonetics: { audio?: string; text?: string }[];
+  meanings: {
+    partOfSpeech: string;
+    definitions: { definition: string; example?: string }[];
+  }[];
+}[];
+
 export type ExtensionMessageResponsePayload = {
   TRANSLATE: {
     translations: {
@@ -36,6 +45,7 @@ export type ExtensionMessageResponsePayload = {
       text: string;
     }[];
   };
+  WIKTIONARY: DictionaryApiResponse;
 };
 
 export type ExtensionMessageResponsePayloadKeys =

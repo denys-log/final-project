@@ -1,6 +1,6 @@
 import { messagingAPI } from "@/extension/api/messaging.api";
 
-function get(word: string) {
+function get(word: string): Promise<{ audio: string; text: string } | null> {
   return messagingAPI
     .sendToBackground({
       action: "WIKTIONARY",
@@ -9,21 +9,20 @@ function get(word: string) {
       },
     })
     .then((response) => {
-      let result = null;
       const data = response?.data?.[0];
 
       if (data?.phonetics) {
         const phonetic = data.phonetics?.find(
-          (item: any) => item.audio && item.text
+          (item) => item.audio && item.text
         );
-        if (phonetic) {
-          result = {
+        if (phonetic && phonetic.audio && phonetic.text) {
+          return {
             audio: phonetic.audio,
             text: phonetic.text,
           };
         }
       }
-      return result;
+      return null;
     });
 }
 

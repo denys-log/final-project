@@ -2,7 +2,6 @@ import { VocabularyList } from "@/components/vocabulary-list/vocabulary-list";
 import styles from "./sidepanel.module.css";
 import { useState } from "react";
 import VocabularyTrainer from "@/pages/vocabulary-trainer/vocabulary-trainer";
-import classNames from "classnames";
 import { Divider } from "@/components/divider/divider";
 import { Button } from "@/components/button/button";
 

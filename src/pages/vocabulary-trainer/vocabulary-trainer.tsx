@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import { StorageSchema } from "@/extension/storage/storage.types";
 import { SuperMemoGrade } from "supermemo";
 import { spacedRepetitionService } from "@/services/spaced-repetition.service";
 import { ReviewCard } from "@/components/review-card/review-card";

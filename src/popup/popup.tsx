@@ -6,13 +6,28 @@ import { useGetVocabulary } from "@/hooks/use-get-vocabulary";
 import { VscLayoutSidebarRight } from "react-icons/vsc";
 import { exportToJSON, exportToCSV, exportToAnki } from "@/utils/export";
 import { useImportVocabulary } from "@/hooks/use-import-vocabulary";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
+import { storage } from "@/extension/storage/storage.api";
 
 export default function Popup() {
   const [todayWords] = useGetTodayWords();
   const { vocabulary, refetch } = useGetVocabulary();
   const { handleImport, status, result, reset } = useImportVocabulary();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [notificationTime, setNotificationTime] = useState("18:00");
+
+  // Load notification time from storage
+  useEffect(() => {
+    storage.get("notificationTime").then((time) => {
+      if (time) setNotificationTime(time);
+    });
+  }, []);
+
+  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newTime = e.target.value;
+    setNotificationTime(newTime);
+    storage.set("notificationTime", newTime);
+  };
 
   // Show notification when import completes
   useEffect(() => {
@@ -124,6 +139,16 @@ export default function Popup() {
             Anki
           </Button>
         </div>
+      </div>
+      <Divider />
+      <div className={styles.settingsSection}>
+        <span className={styles.settingsLabel}>Час нагадування:</span>
+        <input
+          type="time"
+          value={notificationTime}
+          onChange={handleTimeChange}
+          className={styles.timeInput}
+        />
       </div>
       <Divider />
       <div className={styles.buttons}>
