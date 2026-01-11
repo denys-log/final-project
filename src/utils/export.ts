@@ -18,7 +18,7 @@ function downloadFile(content: string, filename: string, mimeType: string) {
 /**
  * Generates a timestamp for filename
  */
-function getTimestamp(): string {
+export function getTimestamp(): string {
   const now = new Date();
   return now.toISOString().split("T")[0]; // YYYY-MM-DD
 }

@@ -217,6 +217,9 @@ export async function parseCSVFile(
   }
 }
 
+// Export helper functions for testing
+export { normalizeVocabularyItem, getDefaultFrequency, getDefaultSM2 };
+
 /**
  * Main import function that handles file parsing based on type
  */

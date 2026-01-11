@@ -115,3 +115,6 @@ function truncateSentence(sentence: string, selectedText: string): string {
 
   return result;
 }
+
+// Export helper functions for testing
+export { findSentenceStart, findSentenceEnd, truncateSentence };
