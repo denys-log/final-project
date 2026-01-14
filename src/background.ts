@@ -97,36 +97,36 @@ chrome.runtime.onMessage.addListener(
       message.payload?.text &&
       message.payload?.targetLang
     ) {
-      new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({
-            translations: [
-              {
-                detected_source_language: "EN",
-                text: "Тут буде переклад",
-              },
-            ],
-          });
-        }, 200);
-      }).then((data) => sendResponse({ success: true, data }));
+      // new Promise((resolve) => {
+      //   setTimeout(() => {
+      //     resolve({
+      //       translations: [
+      //         {
+      //           detected_source_language: "EN",
+      //           text: "Тут буде переклад",
+      //         },
+      //       ],
+      //     });
+      //   }, 200);
+      // }).then((data) => sendResponse({ success: true, data }));
 
-      // fetch("https://api-free.deepl.com/v2/translate", {
-      //   method: "POST",
-      //   headers: {
-      //     Authorization:
-      //       "DeepL-Auth-Key cc43ea64-7c94-49b8-a1f6-5032c15abcac:fx",
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({
-      //     text: [message.payload.text],
-      //     target_lang: message.payload.targetLang,
-      //   }),
-      // })
-      //   .then((response) => response.json())
-      //   .then((data) => sendResponse({ success: true, data }))
-      //   .catch((error) =>
-      //     sendResponse({ success: false, error: error.message })
-      //   );
+      fetch("https://api-free.deepl.com/v2/translate", {
+        method: "POST",
+        headers: {
+          Authorization:
+            "DeepL-Auth-Key cc43ea64-7c94-49b8-a1f6-5032c15abcac:fx",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          text: [message.payload.text],
+          target_lang: message.payload.targetLang,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => sendResponse({ success: true, data }))
+        .catch((error) =>
+          sendResponse({ success: false, error: error.message })
+        );
 
       return true;
     } else if (message.action === "WIKTIONARY" && message.payload?.word) {

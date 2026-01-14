@@ -6,11 +6,17 @@ export default defineManifest({
   name: pkg.name,
   version: pkg.version,
   icons: {
-    48: "public/logo.png",
+    16: "public/icon-16x16.png",
+    32: "public/icon-32x32.png",
+    48: "public/icon-48x48.png",
+    128: "public/icon-128x128.png",
   },
   action: {
     default_icon: {
-      48: "public/logo.png",
+      16: "public/icon-16x16.png",
+      32: "public/icon-32x32.png",
+      48: "public/icon-48x48.png",
+      128: "public/icon-128x128.png",
     },
     default_popup: "src/popup/index.html",
   },
