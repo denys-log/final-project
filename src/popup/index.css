@@ -1,7 +1,11 @@
 :root {
   background-color: #1f1f1f;
   color: #fff;
+}
+
+body {
   width: 400px;
+  margin: 0;
 }
 
 * {
