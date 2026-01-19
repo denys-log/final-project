@@ -2,6 +2,15 @@ import { ExtensionMessageEvent } from "./types/global.types";
 import { vocabularyController } from "./controller/vocabulary.controller";
 import { storage } from "./extension/storage/storage.api";
 
+// Update extension badge with words due count
+async function updateBadge() {
+  const todayWords = await vocabularyController.getTodayWords();
+  const dueCount = todayWords.length;
+
+  chrome.action.setBadgeText({ text: dueCount > 0 ? String(dueCount) : "" });
+  chrome.action.setBadgeBackgroundColor({ color: "#4CAF50" });
+}
+
 // Check for words due today and send notification
 async function checkAndNotify() {
   const todayWords = await vocabularyController.getTodayWords();
@@ -60,6 +69,12 @@ async function scheduleDailyNotification() {
 // Set up alarm on extension install/update
 chrome.runtime.onInstalled.addListener(() => {
   scheduleDailyNotification();
+  updateBadge();
+});
+
+// Update badge on extension startup
+chrome.runtime.onStartup.addListener(() => {
+  updateBadge();
 });
 
 // Handle alarm trigger
@@ -69,10 +84,16 @@ chrome.alarms.onAlarm.addListener((alarm) => {
   }
 });
 
-// Listen for notification time setting changes
+// Listen for storage changes
 chrome.storage.onChanged.addListener((changes, areaName) => {
-  if (areaName === "local" && changes.notificationTime) {
-    scheduleDailyNotification();
+  if (areaName === "local") {
+    if (changes.notificationTime) {
+      scheduleDailyNotification();
+    }
+    // Update badge when vocabulary changes
+    if (changes.vocabulary) {
+      updateBadge();
+    }
   }
 });
 

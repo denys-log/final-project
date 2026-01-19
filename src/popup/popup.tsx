@@ -85,10 +85,6 @@ export default function Popup() {
       <Divider />
       <div>
         <div className={styles.subtitle}>
-          <span>Вивчено слів за весь час</span>
-          <strong>0</strong>
-        </div>
-        <div className={styles.subtitle}>
           <span>Всього слів у словнику</span>
           <strong>{vocabulary.length}</strong>
         </div>
