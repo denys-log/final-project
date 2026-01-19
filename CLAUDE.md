@@ -19,6 +19,10 @@ npm run build
 npm run preview
 ```
 
+## Workflow Preferences
+
+- Do not automatically run builds (`npm run build`) after making changes. The user will run builds manually when needed.
+
 ## Chrome Extension Development Workflow
 
 1. Run `npm run dev` to start the development server
