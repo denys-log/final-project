@@ -15,11 +15,16 @@ export default function Popup() {
   const { handleImport, status, result, reset } = useImportVocabulary();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [notificationTime, setNotificationTime] = useState("18:00");
+  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
 
-  // Load notification time from storage
+  // Load notification settings from storage
   useEffect(() => {
     storage.get("notificationTime").then((time) => {
       if (time) setNotificationTime(time);
+    });
+    storage.get("notificationsEnabled").then((enabled) => {
+      // Default to true if undefined (fresh install)
+      setNotificationsEnabled(enabled !== false);
     });
   }, []);
 
@@ -27,6 +32,12 @@ export default function Popup() {
     const newTime = e.target.value;
     setNotificationTime(newTime);
     storage.set("notificationTime", newTime);
+  };
+
+  const handleNotificationsToggle = () => {
+    const newValue = !notificationsEnabled;
+    setNotificationsEnabled(newValue);
+    storage.set("notificationsEnabled", newValue);
   };
 
   // Show notification when import completes
@@ -138,13 +149,27 @@ export default function Popup() {
       </div>
       <Divider />
       <div className={styles.settingsSection}>
-        <span className={styles.settingsLabel}>Час нагадування:</span>
-        <input
-          type="time"
-          value={notificationTime}
-          onChange={handleTimeChange}
-          className={styles.timeInput}
-        />
+        <div className={styles.toggleRow}>
+          <span className={styles.settingsLabel}>Сповіщення</span>
+          <label className={styles.toggle}>
+            <input
+              type="checkbox"
+              checked={notificationsEnabled}
+              onChange={handleNotificationsToggle}
+            />
+            <span className={styles.toggleSlider}></span>
+          </label>
+        </div>
+        <div className={styles.timeRow}>
+          <span className={styles.settingsLabel}>Час нагадування:</span>
+          <input
+            type="time"
+            value={notificationTime}
+            onChange={handleTimeChange}
+            className={`${styles.timeInput} ${!notificationsEnabled ? styles.timeInputDisabled : ""}`}
+            disabled={!notificationsEnabled}
+          />
+        </div>
       </div>
       <Divider />
       <div className={styles.buttons}>

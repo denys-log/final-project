@@ -13,6 +13,12 @@ async function updateBadge() {
 
 // Check for words due today and send notification
 async function checkAndNotify() {
+  // Check if notifications are enabled (default to true if undefined)
+  const notificationsEnabled = await storage.get("notificationsEnabled");
+  if (notificationsEnabled === false) {
+    return;
+  }
+
   const todayWords = await vocabularyController.getTodayWords();
 
   // Only show notification if there are words to review
@@ -85,10 +91,20 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 });
 
 // Listen for storage changes
-chrome.storage.onChanged.addListener((changes, areaName) => {
+chrome.storage.onChanged.addListener(async (changes, areaName) => {
   if (areaName === "local") {
     if (changes.notificationTime) {
       scheduleDailyNotification();
+    }
+    // Handle notifications enabled/disabled
+    if (changes.notificationsEnabled) {
+      if (changes.notificationsEnabled.newValue === false) {
+        // Clear alarm when notifications are disabled
+        await chrome.alarms.clear("daily-vocabulary-reminder");
+      } else {
+        // Reschedule when notifications are re-enabled
+        scheduleDailyNotification();
+      }
     }
     // Update badge when vocabulary changes
     if (changes.vocabulary) {

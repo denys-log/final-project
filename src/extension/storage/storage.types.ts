@@ -13,6 +13,7 @@ type StorageSchema = {
     sm2: Flashcard;
   }>;
   notificationTime: string; // Format: "HH:MM", default "18:00"
+  notificationsEnabled: boolean; // default: true
 };
 
 type StorageKey = keyof StorageSchema;
